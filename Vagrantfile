@@ -19,9 +19,14 @@ Vagrant.configure('2') do |config|
     v.customize ['set', :id, '--on-window-close', 'keep-running']
   end
 
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.cpus = 2
+  end
+
   config.vm.network :forwarded_port, guest: 3000, host: 3000
 
-  config.vm.synced_folder ".", "/vagrant", type: "nfs"
+  config.vm.synced_folder ".", "/vagrant", type: "rsync"
 
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = 'puppet/manifests'
